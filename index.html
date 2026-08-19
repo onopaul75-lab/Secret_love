@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A Secret Message ❤️</title>
+<style>
+body {
+  margin:0;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:Arial,sans-serif;
+  background:linear-gradient(135deg,#18000b,#700020);
+  color:white;
+  padding:20px;
+}
+.card {
+  max-width:500px;
+  width:100%;
+  text-align:center;
+  background:rgba(255,255,255,.12);
+  padding:30px;
+  border-radius:25px;
+}
+input {
+  width:90%;
+  padding:15px;
+  border-radius:12px;
+  border:0;
+  font-size:17px;
+  margin:15px 0;
+}
+button {
+  padding:15px 30px;
+  border:0;
+  border-radius:12px;
+  background:#ff2d68;
+  color:white;
+  font-size:17px;
+  font-weight:bold;
+}
+#message {
+  display:none;
+  text-align:left;
+  line-height:1.7;
+  margin-top:25px;
+}
+#error {
+  color:#ffb3c4;
+}
+</style>
+</head>
+
+<body>
+<div class="card">
+
+<h1>🔐❤️</h1>
+<h2>A Secret Message</h2>
+
+<p>Enter the password to unlock my message.</p>
+
+<input id="password" type="password" placeholder="Enter password">
+
+<br>
+
+<button onclick="unlock()">Unlock ❤️</button>
+
+<p id="error"></p>
+
+<div id="message">
+<h2>For You ❤️</h2>
+
+<p>
+When I tell you I love you, I don't mean it lightly.
+I mean it as a promise, a vow I carry deep in my heart.
+It's choosing you every day, through every smile, every storm,
+and every tomorrow. My love for you isn't just words it's forever. ❤️💓
+</p>
+
+<p style="text-align:center;font-size:30px">
+❤️ 💓 ❤️
+</p>
+</div>
+
+</div>
+
+<script>
+function unlock() {
+  let password = document.getElementById("password").value;
+
+  if (password === "Naki") {
+    document.getElementById("message").style.display = "block";
+    document.getElementById("error").innerHTML = "";
+  } else {
+    document.getElementById("message").style.display = "none";
+    document.getElementById("error").innerHTML =
+      "❌ Incorrect password. Try again.";
+  }
+}
+</script>
+
+</body>
+</html>
