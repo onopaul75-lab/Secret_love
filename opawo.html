@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>OPAWO TIME CONVERTER</title>
+<style>
+body{margin:0;background:#010604;color:#39ff88;font-family:monospace}
+.box{max-width:700px;margin:auto;padding:18px}
+h1{text-shadow:0 0 12px #39ff88}
+.panel{border:1px solid #39ff88;padding:15px;margin:12px 0;background:#03120a}
+input,button{width:100%;box-sizing:border-box;padding:13px;margin-top:9px;background:#000;color:#39ff88;border:1px solid #39ff88;font:inherit;font-size:19px}
+button{background:#082b19;font-weight:bold}
+#terminal{min-height:200px;white-space:pre-wrap;line-height:1.5}
+.result{text-align:center;font-size:30px;border:1px dashed #39ff88;padding:16px;margin-top:12px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.rule{border:1px solid #12552f;padding:8px;font-size:12px}
+</style>
+</head>
+
+<body>
+<div class="box">
+
+<h1>⌁ OPAWO // TIME SYSTEM ⌁</h1>
+<p>FAKE TIME → OPAWO LAW → REAL TIME</p>
+
+<div class="panel">
+<b>ENTER FAKE TIME</b>
+<input id="time" value="11:40" placeholder="Example: 11:40">
+<button onclick="convert()">▶ RUN OPAWO LAW</button>
+</div>
+
+<div class="panel">
+<div id="terminal">
+SYSTEM READY...
+Awaiting fake time...
+</div>
+
+<div id="result" class="result">
+REAL TIME: --:--
+</div>
+</div>
+
+<div class="panel">
+<b>FAKE → REAL CLOCK MAP</b>
+
+<div class="grid">
+<div class="rule">11 → 12</div>
+<div class="rule">10 → 1</div>
+<div class="rule">9 → 2</div>
+<div class="rule">8 → 3</div>
+<div class="rule">7 → 4</div>
+<div class="rule">33 → 5</div>
+<div class="rule">42 → 6</div>
+<div class="rule">40 → 7</div>
+<div class="rule">38 → 8</div>
+<div class="rule">36 → 9</div>
+<div class="rule">16 → 10</div>
+<div class="rule">17 → 11</div>
+</div>
+</div>
+
+<div class="panel">
+<b>MINUTE LAW</b>
+<p>
+1 = 5 min<br>
+2 = 10 min<br>
+3 = 15 min<br>
+4 = 20 min<br>
+5 = 25 min<br>
+6 = 30 min<br>
+7 = 35 min<br>
+8 = 40 min<br>
+9 = 45 min<br>
+10 = 50 min<br>
+11 = 55 min<br>
+12 = 00 min
+</p>
+
+<p>
+Example: FAKE 40 → REAL POSITION 7 → 7 × 5 = 35 minutes.
+</p>
+</div>
+
+</div>
+
+<script>
+
+const map={
+"11":12,
+"10":1,
+"9":2,
+"8":3,
+"7":4,
+"33":5,
+"42":6,
+"40":7,
+"38":8,
+"36":9,
+"16":10,
+"17":11
+};
+
+function wait(ms){
+return new Promise(resolve=>setTimeout(resolve,ms));
+}
+
+async function convert(){
+
+let input=document.getElementById("time").value.trim();
+let terminal=document.getElementById("terminal");
+let result=document.getElementById("result");
+
+terminal.textContent="";
+result.textContent="REAL TIME: SCANNING...";
+
+let parts=input.split(":");
+
+if(parts.length!==2){
+terminal.textContent="[!] ENTER TIME LIKE 11:40";
+return;
+}
+
+let fakeHour=parts[0];
+let fakeMinute=parts[1];
+
+for(let character of input){
+
+terminal.textContent+="[SCAN] "+character+"\n";
+
+await wait(100);
+
+}
+
+terminal.textContent+="\n[+] SEARCHING FAKE HOUR...\n";
+
+await wait(400);
+
+let realHour=map[fakeHour];
+
+if(realHour===undefined){
+
+terminal.textContent+="[!] FAKE HOUR NOT FOUND";
+result.textContent="REAL TIME: UNKNOWN";
+
+return;
+
+}
+
+terminal.textContent+=
+"[✓] "+fakeHour+" → REAL HOUR "+realHour+"\n";
+
+await wait(400);
+
+terminal.textContent+=
+"[+] SEARCHING FAKE MINUTE...\n";
+
+await wait(400);
+
+let position=map[fakeMinute];
+
+if(position===undefined){
+
+terminal.textContent+=
+"[!] MINUTE CODE NOT FOUND";
+
+result.textContent=
+"REAL TIME: "+realHour+":??";
+
+return;
+
+}
+
+let minutes;
+
+if(position===12){
+
+minutes=0;
+
+}else{
+
+minutes=position*5;
+
+}
+
+terminal.textContent+=
+"[✓] "+fakeMinute+
+" → POSITION "+position+"\n";
+
+await wait(400);
+
+terminal.textContent+=
+"[+] "+position+
+" × 5 = "+
+String(minutes).padStart(2,"0")+
+" MINUTES\n";
+
+await wait(400);
+
+terminal.textContent+=
+"[✓] OPAWO CONVERSION COMPLETE";
+
+result.textContent=
+"REAL TIME: "+
+String(realHour).padStart(2,"0")+
+":"+
+String(minutes).padStart(2,"0");
+
+}
+
+</script>
+
+</body>
+</html>
