@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wi-Fi Password Auditor</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background:#0b1020;
+  color:white;
+  text-align:center;
+  padding:25px;
+}
+.box {
+  max-width:500px;
+  margin:auto;
+  background:#151c33;
+  padding:25px;
+  border-radius:15px;
+}
+input, button {
+  width:90%;
+  padding:14px;
+  margin:10px;
+  border-radius:8px;
+  border:0;
+  font-size:16px;
+}
+button {
+  background:#00aaff;
+  color:white;
+  font-weight:bold;
+}
+#result {
+  margin-top:20px;
+  font-size:20px;
+}
+</style>
+</head>
+
+<body>
+<div class="box">
+<h1>📶 Wi-Fi Password Auditor</h1>
+<p>Test the strength of your own Wi-Fi password.</p>
+
+<input id="password" type="password"
+placeholder="Enter your Wi-Fi password">
+
+<button onclick="checkPassword()">TEST PASSWORD</button>
+
+<div id="result"></div>
+</div>
+
+<script>
+function checkPassword() {
+  const p = document.getElementById("password").value;
+  let score = 0;
+
+  if (p.length >= 8) score++;
+  if (p.length >= 12) score++;
+  if (/[A-Z]/.test(p)) score++;
+  if (/[a-z]/.test(p)) score++;
+  if (/[0-9]/.test(p)) score++;
+  if (/[^A-Za-z0-9]/.test(p)) score++;
+
+  let message = "";
+
+  if (p.length === 0) {
+    message = "⚠️ Enter a password.";
+  } else if (score <= 2) {
+    message = "🔴 WEAK — choose a stronger password.";
+  } else if (score <= 4) {
+    message = "🟠 MODERATE — it could be stronger.";
+  } else {
+    message = "🟢 STRONG — good password structure.";
+  }
+
+  document.getElementById("result").innerHTML =
+    message + "<br><small>Length: " + p.length + " characters</small>";
+}
+</script>
+</body>
+</html>
